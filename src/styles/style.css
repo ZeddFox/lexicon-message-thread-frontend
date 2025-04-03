@@ -1,0 +1,56 @@
+.message-thread-page{
+    max-width: 600px;
+    border-color: white;
+    border-width: 2px;
+}
+
+.message-thread-table{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-thread-chat-other{
+    display: flex;
+    justify-content: left;
+    width: 100%;
+}
+.message-thread-chat-other div{
+    color: white;
+    background-color: rgb(0, 202, 0);
+    border-radius: 15px;
+    padding: 8px;
+    max-width: 47.5%;
+    margin: 1px 2px 1px 0;
+}
+
+.message-thread-chat-self{
+    justify-content: right;
+    display: flex;
+    width: 100%;
+}
+.message-thread-chat-self div{
+    color: white;
+    background-color: rgb(42, 125, 250);
+    border-radius: 25px;
+    padding: 8px;
+    max-width: 47.5%;
+    margin: 1px 0 1px 2px;
+}
+
+
+
+.message-thread-chat-input{
+    border-color: white;
+    border-width: 2px;
+    padding: 5px;
+}
+
+.message-thread-chat-input *{
+    border-color: white;
+    border-radius: 25px;
+    border-width: 2px;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
