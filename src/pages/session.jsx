@@ -1,23 +1,75 @@
 import { Form } from 'react-router';
+import { useEffect,useState } from 'react';
+import { MessageThread } from '../components/MessageThread';
+import { BACKEND } from "../config";
+import axios from 'axios';
 import '../styles/style.css';
 
 export const Session = () =>
 {
+    const [msgThread, setmsgThread] = useState([]);
+    const [sessionData, setSessionData] = useState({
+        userID: 0,
+    });
+    const [messageString, setMessageString] = useState("");
+
+    // useEffect, update only on login
+    useEffect(() => {
+
+    }, []);
+
+    // useEffect, update continuously
+    useEffect(() => {
+        getMessageThread();
+    },[])
+
+
+    async function writeNewMessage(messageToSend) {
+        axios.post(`${BACKEND}/Message/write`, {
+            MessageID: 0,
+            UserID: sessionData.userID,
+            SendDate: null,
+            MessageString: messageToSend
+        })
+        .then(function (response) {
+
+            console.log(response);
+
+          })
+
+          .catch(function (error) {
+
+            console.log(error);
+
+          });
+    }
+
+
+
+    // Get all messages
+    async function getMessageThread() {
+        try {
+            const response = await axios.get(`${BACKEND}/Message/read`);
+            
+            console.log("Get Message Thread Response:", response.data);
+            setmsgThread(response.data.messages);
+        } catch (error) {
+            console.error('Error getting message thread:', error);
+        }
+    }
+
+    /*          HTML            */
     return (
     <div className='message-thread-page'>
         <h1 className='message-thread-title'>Session Page</h1>
 
         <div className='message-thread-table'>
-            <div className='message-thread-chat-other'><div>Lorem.</div></div>
-            <div className='message-thread-chat-self'><div>Lorem.</div></div>
-            <div className='message-thread-chat-other'><div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt, ducimus.</div></div>
-            <div className='message-thread-chat-self'><div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad itaque veritatis error placeat repellendus mollitia in facilis, corporis voluptas nemo perspiciatis iure vel repudiandae numquam!</div></div>
-            <div className='message-thread-chat-other'><div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim consectetur, rerum pariatur error ullam veniam veritatis minima quo quod tempore consequatur natus vero delectus nulla aliquam dolore laudantium quidem hic ut molestiae, quasi provident, facilis esse. Explicabo delectus repellendus, officiis error, id autem quo quasi ducimus beatae numquam deserunt facere.</div></div>
-            <div className='message-thread-chat-self'><div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad itaque veritatis error placeat repellendus mollitia in facilis, corporis voluptas nemo perspiciatis iure vel repudiandae numquam!</div></div>
+            {msgThread.length>0? <MessageThread data={msgThread}/>:<div>No messages yet!</div>}
         </div>
 
         <div className='message-thread-chat-input'>
-            <input type="text" placeholder="Write your message here!"required/>
+            <input type="text" placeholder="Write your message here!" value={messageString} onChange={(writtenText) => setMessageString(writtenText.target.value)} required/>
+            <button type="submit" onClick={() => writeNewMessage(messageString)}></button>
         </div>
     </div>
     )
