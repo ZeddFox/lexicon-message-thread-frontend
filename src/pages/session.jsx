@@ -33,7 +33,8 @@ export const Session = () =>
         })
         .then(function (response) {
 
-            console.log(response);
+            getMessageThread();
+            //console.log(response);
 
           })
 
